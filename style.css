@@ -1,0 +1,676 @@
+/* ================= DESIGN SYSTEM & CUSTOM PROPERTIES ================= */
+:root {
+    --bg-gradient-start: #ffeef2;
+    --bg-gradient-end: #ffd1dc;
+    --primary-pink: #ff5e7e;
+    --primary-hover: #ff3b61;
+    --secondary-pink: #ffb3c1;
+    --cream-light: #fffafa;
+    --gold-accent: #d4af37;
+    --text-dark: #4a2c3a;
+    --text-muted: #8c6a78;
+    --card-shadow: 0 15px 35px rgba(255, 179, 193, 0.35);
+    --glass-bg: rgba(255, 255, 255, 0.45);
+    --glass-border: rgba(255, 255, 255, 0.6);
+    --font-heading: 'Pacifico', cursive;
+    --font-handwritten: 'Caveat', cursive;
+    --font-body: 'Outfit', sans-serif;
+}
+
+/* ================= RESET & GENERAL STYLES ================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+    color: var(--text-dark);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Background Canvas */
+#ambient-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ================= SOUND TOGGLE ================= */
+#sound-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: var(--glass-bg);
+    border: 2px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(255, 94, 126, 0.15);
+    transition: all 0.3s ease;
+}
+
+#sound-toggle:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.6);
+}
+
+#sound-toggle.muted .icon {
+    filter: grayscale(1) opacity(0.6);
+}
+
+/* ================= LAYOUT CONTAINER ================= */
+#app-container {
+    width: 100%;
+    max-width: 440px;
+    padding: 20px;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.screen {
+    width: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* Glassmorphism Card Style */
+.glassmorphism {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 2px solid var(--glass-border);
+    border-radius: 28px;
+    padding: 30px 24px;
+    box-shadow: var(--card-shadow);
+    width: 100%;
+    text-align: center;
+}
+
+/* ================= SCREEN 1: QUESTION ================= */
+.bear-mascot-container {
+    position: relative;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bear-svg {
+    animation: mascotBounce 3s ease-in-out infinite;
+}
+
+.heart-crown {
+    position: absolute;
+    top: 5px;
+    font-size: 24px;
+    animation: heartCrownFloat 2s ease-in-out infinite;
+}
+
+.question-title {
+    font-family: var(--font-heading);
+    font-size: 26px;
+    line-height: 1.4;
+    margin-bottom: 30px;
+    color: var(--text-dark);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.button-wrapper {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    min-height: 80px;
+    position: relative;
+}
+
+/* Button UI */
+.btn {
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease, opacity 0.3s;
+    outline: none;
+    font-family: var(--font-body);
+}
+
+.yes-btn-pulse {
+    background: linear-gradient(135deg, var(--primary-pink), #ff3b61);
+    color: white;
+    box-shadow: 0 8px 20px rgba(255, 94, 126, 0.4);
+    transform-origin: center;
+    animation: heartBeatPulse 1.8s infinite;
+}
+
+.yes-btn-pulse:hover {
+    background: linear-gradient(135deg, var(--primary-hover), #e62248);
+    box-shadow: 0 10px 24px rgba(255, 94, 126, 0.5);
+    transform: scale(1.05) translateY(-2px);
+}
+
+.no-btn-evade {
+    background: var(--cream-light);
+    color: var(--text-muted);
+    border: 2px solid rgba(255, 179, 193, 0.4);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+    z-index: 50;
+}
+
+/* ================= SCREEN 2: 3D ENVELOPE ================= */
+.envelope-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    width: 100%;
+}
+
+.instruction-text {
+    font-family: var(--font-handwritten);
+    font-size: 28px;
+    color: var(--primary-pink);
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+    animation: textBlink 1.5s infinite;
+}
+
+.envelope {
+    position: relative;
+    width: 280px;
+    height: 180px;
+    background: #ffcbd7;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 10px 25px rgba(255, 94, 126, 0.25);
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease;
+}
+
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-left: 140px solid transparent;
+    border-right: 140px solid transparent;
+    border-top: 100px solid #ffcbd7; /* Points down */
+    transform-origin: top;
+    transition: transform 0.5s ease 0.3s, z-index 0.2s ease 0.4s;
+    z-index: 4;
+}
+
+.envelope-front {
+    position: absolute;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 140px solid #ffaec1;
+    border-right: 140px solid #ffaec1;
+    border-bottom: 90px solid #ffcbd7;
+    border-radius: 0 0 12px 12px;
+    z-index: 3;
+}
+
+.envelope-paper {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 250px;
+    height: 150px;
+    background: #fffcfc;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+    z-index: 2;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.5s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.paper-preview {
+    text-align: center;
+}
+
+.preview-heart {
+    font-size: 32px;
+    display: inline-block;
+    animation: heartBeatPulse 1.2s infinite;
+}
+
+.preview-text {
+    font-family: var(--font-handwritten);
+    font-size: 26px;
+    color: var(--text-dark);
+    margin-top: 5px;
+}
+
+.wax-seal {
+    position: absolute;
+    top: 75px;
+    left: 110px;
+    z-index: 5;
+    transition: all 0.4s ease;
+    transform-origin: center;
+}
+
+/* Open Envelope States */
+.envelope.open .envelope-flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.envelope.open .envelope-paper {
+    transform: translateY(-90px) scale(1.05);
+    z-index: 6;
+}
+
+.envelope.open .wax-seal {
+    opacity: 0;
+    transform: scale(0);
+}
+
+/* ================= SCREEN 3: LOVE BOOK ================= */
+.book-container {
+    position: relative;
+    overflow: hidden;
+    min-height: 480px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.book-progress {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.progress-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 94, 126, 0.25);
+    transition: all 0.3s ease;
+}
+
+.progress-dot.active {
+    width: 24px;
+    border-radius: 4px;
+    background: var(--primary-pink);
+}
+
+.slides-wrapper {
+    flex-grow: 1;
+    display: flex;
+    position: relative;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform: translateX(40px) scale(0.95);
+    pointer-events: none;
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.slide.active {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    pointer-events: auto;
+}
+
+.slide-title {
+    font-family: var(--font-heading);
+    font-size: 22px;
+    color: var(--text-dark);
+    margin-bottom: 15px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.slide-subtitle {
+    margin-top: 15px;
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.animation-container {
+    width: 100%;
+    height: 240px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+}
+
+/* Navigation */
+.book-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    padding: 0 10px;
+}
+
+.nav-arrow {
+    background: var(--cream-light);
+    border: 2px solid rgba(255, 94, 126, 0.25);
+    color: var(--primary-pink);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(255, 94, 126, 0.08);
+    transition: all 0.3s ease;
+}
+
+.nav-arrow:hover:not(:disabled) {
+    background: var(--primary-pink);
+    color: white;
+    box-shadow: 0 6px 14px rgba(255, 94, 126, 0.3);
+    transform: scale(1.05);
+}
+
+.nav-arrow:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* --- SLIDE 1 SPECIFIC (HUG BEAR) --- */
+.hug-bear-svg {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.hug-bear-svg:hover {
+    transform: scale(1.05);
+}
+
+.hug-bear-svg.hugging {
+    animation: bearHugMotion 1.2s forwards ease-in-out;
+}
+
+.hug-bear-svg.hugging #hug-left-arm {
+    animation: hugLeftArmAnimation 1.2s forwards ease-in-out;
+    transform-origin: 65px 140px;
+}
+
+.hug-bear-svg.hugging #hug-right-arm {
+    animation: hugRightArmAnimation 1.2s forwards ease-in-out;
+    transform-origin: 135px 140px;
+}
+
+/* Full screen ripple feedback */
+.ripple-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: radial-gradient(circle, rgba(255, 94, 126, 0.4) 0%, transparent 70%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.1s ease;
+    mix-blend-mode: multiply;
+}
+
+.ripple-overlay.show {
+    animation: hugRipple 1.2s ease-out;
+}
+
+/* --- SLIDE 2 SPECIFIC (HEART SYMPHONY) --- */
+.beating-heart-wrapper {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.symphony-heart {
+    transform-origin: center;
+    animation: heartBeatPulse 1.2s infinite;
+    transition: transform 0.1s ease;
+}
+
+.symphony-heart.fast {
+    animation: heartBeatPulseFast 0.5s infinite;
+}
+
+#heart-symphony-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* --- SLIDE 3 SPECIFIC (KISS BLASTER) --- */
+.interactive-canvas-container {
+    cursor: crosshair;
+}
+
+#kiss-blaster-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.click-prompt {
+    position: absolute;
+    bottom: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    opacity: 0.7;
+    animation: textBlink 2s infinite;
+    pointer-events: none;
+}
+
+/* --- SLIDE 4 SPECIFIC (POLAROID) --- */
+.polaroid-card {
+    background: white;
+    border-radius: 4px;
+    padding: 16px;
+    box-shadow: 0 12px 28px rgba(74, 44, 58, 0.15), 0 2px 4px rgba(74, 44, 58, 0.05);
+    width: 240px;
+    transform: rotate(-2deg);
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    animation: floatPolaroid 5s ease-in-out infinite alternate;
+}
+
+.polaroid-pin {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+}
+
+.polaroid-photo {
+    width: 100%;
+    height: 140px;
+    background: #ffebf0;
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.02);
+}
+
+.floating-illustration {
+    animation: mascotBounce 2.5s ease-in-out infinite;
+}
+
+.polaroid-text-area {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.sweet-note-message {
+    font-family: var(--font-handwritten);
+    font-size: 28px;
+    color: var(--primary-pink);
+    line-height: 1.1;
+    font-weight: 700;
+}
+
+.sweet-note-signature {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-top: 8px;
+    letter-spacing: 0.5px;
+}
+
+.secondary-btn {
+    margin-top: 25px;
+    background: var(--cream-light);
+    color: var(--primary-pink);
+    border: 2px solid var(--secondary-pink);
+    box-shadow: 0 6px 15px rgba(255, 94, 126, 0.1);
+}
+
+.secondary-btn:hover {
+    background: #fff0f3;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 94, 126, 0.18);
+}
+
+/* ================= KEYFRAME ANIMATIONS ================= */
+@keyframes mascotBounce {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(1deg); }
+}
+
+@keyframes heartCrownFloat {
+    0%, 100% { transform: translateY(0) scale(1) rotate(-5deg); }
+    50% { transform: translateY(-5px) scale(1.1) rotate(5deg); }
+}
+
+@keyframes heartBeatPulse {
+    0%, 100% { transform: scale(1); }
+    30% { transform: scale(1.08); }
+    60% { transform: scale(1.03); }
+    80% { transform: scale(1.08); }
+}
+
+@keyframes heartBeatPulseFast {
+    0%, 100% { transform: scale(1); }
+    30% { transform: scale(1.15); }
+    60% { transform: scale(1.08); }
+    80% { transform: scale(1.15); }
+}
+
+@keyframes textBlink {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+@keyframes floatPolaroid {
+    0% { transform: rotate(-3deg) translateY(0); }
+    100% { transform: rotate(1deg) translateY(-8px); }
+}
+
+@keyframes bearHugMotion {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.15) translateY(-5px); }
+    80% { transform: scale(1.12); }
+    100% { transform: scale(1); }
+}
+
+@keyframes hugLeftArmAnimation {
+    0% { transform: rotate(0deg); }
+    40% { transform: rotate(20deg) scaleX(1.1); }
+    80% { transform: rotate(-15deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes hugRightArmAnimation {
+    0% { transform: rotate(0deg); }
+    40% { transform: rotate(-20deg) scaleX(1.1); }
+    80% { transform: rotate(15deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes hugRipple {
+    0% { opacity: 0; transform: scale(0.3); }
+    20% { opacity: 1; }
+    100% { opacity: 0; transform: scale(1.2); }
+}
+
+/* ================= SPECIAL UTILITIES & DEVIATIONS ================= */
+.hidden {
+    display: none !important;
+}
+
+.bubble-in {
+    animation: bubbleIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes bubbleIn {
+    0% { transform: scale(0.7); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Fade out screen */
+.fade-out {
+    animation: fadeOut 0.5s ease forwards;
+}
+
+@keyframes fadeOut {
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.9); }
+}

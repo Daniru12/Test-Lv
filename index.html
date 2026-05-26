@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Sandeera 💖</title>
+    <!-- Google Fonts for premium typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Outfit:wght@300;400;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Floating background particle canvas -->
+    <canvas id="ambient-canvas"></canvas>
+
+    <!-- Sound Toggle Button -->
+    <button id="sound-toggle" aria-label="Toggle Sound">
+        <span class="icon">🔊</span>
+    </button>
+
+    <!-- Main Container -->
+    <main id="app-container">
+
+        <!-- ================= SCREEN 1: THE PLAYFUL QUESTION ================= -->
+        <section id="question-screen" class="screen active">
+            <div class="card glassmorphism bubble-in">
+                <!-- Cute SVG Bear holding a blank sign (gets filled dynamically) -->
+                <div class="bear-mascot-container">
+                    <svg class="bear-svg" viewBox="0 0 200 220" width="180" height="200">
+                        <defs>
+                            <linearGradient id="bearGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#dfb195" />
+                                <stop offset="100%" stop-color="#c59275" />
+                            </linearGradient>
+                            <linearGradient id="innerEarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ffccd5" />
+                                <stop offset="100%" stop-color="#fca4b7" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Ears -->
+                        <circle cx="55" cy="55" r="18" fill="url(#bearGrad)" />
+                        <circle cx="55" cy="55" r="10" fill="url(#innerEarGrad)" />
+                        <circle cx="145" cy="55" r="18" fill="url(#bearGrad)" />
+                        <circle cx="145" cy="55" r="10" fill="url(#innerEarGrad)" />
+                        
+                        <!-- Feet / Legs -->
+                        <ellipse cx="65" cy="200" rx="16" ry="12" fill="url(#bearGrad)" />
+                        <ellipse cx="135" cy="200" rx="16" ry="12" fill="url(#bearGrad)" />
+                        
+                        <!-- Body -->
+                        <path d="M 60 130 C 40 160, 45 195, 65 200 C 90 205, 110 205, 135 200 C 155 195, 160 160, 140 130 Z" fill="url(#bearGrad)" />
+                        
+                        <!-- Head -->
+                        <circle cx="100" cy="100" r="45" fill="url(#bearGrad)" />
+                        
+                        <!-- Eyes -->
+                        <circle class="bear-eye left" cx="83" cy="95" r="5" fill="#3a251b" />
+                        <circle class="bear-eye right" cx="117" cy="95" r="5" fill="#3a251b" />
+                        
+                        <!-- Cheeks (Blush) -->
+                        <ellipse cx="73" cy="106" rx="9" ry="6" fill="#fca4b7" opacity="0.8" />
+                        <ellipse cx="127" cy="106" rx="9" ry="6" fill="#fca4b7" opacity="0.8" />
+                        
+                        <!-- Snout -->
+                        <ellipse cx="100" cy="108" rx="13" ry="9" fill="#ffffff" />
+                        <path d="M 96 106 Q 100 109 104 106 Q 100 104 96 106" fill="#3a251b" />
+                        <path d="M 100 107 L 100 112 Q 97 114 95 113 M 100 112 Q 103 114 105 113" stroke="#3a251b" stroke-width="1.5" fill="none" stroke-linecap="round" />
+                        
+                        <!-- Left Arm (Holding sign) -->
+                        <path id="mascot-left-arm" d="M 60 135 C 45 135, 35 155, 55 165 C 65 170, 75 155, 70 140" fill="url(#bearGrad)" />
+                        <!-- Right Arm (Holding sign) -->
+                        <path id="mascot-right-arm" d="M 140 135 C 155 135, 165 155, 145 165 C 135 170, 125 155, 130 140" fill="url(#bearGrad)" />
+                    </svg>
+                    <!-- Small interactive floating heart above head -->
+                    <div class="heart-crown">💖</div>
+                </div>
+
+                <h1 class="question-title">Do you love me, Sandeera? 🥺</h1>
+                
+                <div class="button-wrapper">
+                    <button id="yes-btn" class="btn yes-btn-pulse">Yes! 💖</button>
+                    <button id="no-btn" class="btn no-btn-evade">No 😢</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SCREEN 2: THE MAGIC ENVELOPE ================= -->
+        <section id="envelope-screen" class="screen">
+            <div class="envelope-wrapper">
+                <div class="instruction-text">Tap the letter to open it... ✨</div>
+                <div class="envelope" id="love-envelope">
+                    <div class="envelope-flap"></div>
+                    <div class="envelope-paper">
+                        <div class="paper-preview">
+                            <span class="preview-heart">💖</span>
+                            <p class="preview-text">To Sandeera</p>
+                        </div>
+                    </div>
+                    <div class="envelope-front"></div>
+                    <div class="wax-seal" id="envelope-seal">
+                        <svg viewBox="0 0 100 100" width="60" height="60">
+                            <circle cx="50" cy="50" r="35" fill="#e03e5c" stroke="#b6213c" stroke-width="2" />
+                            <path d="M 50 32 C 50 32, 41 21, 31 31 C 21 41, 50 68, 50 68 C 50 68, 79 41, 69 31 C 59 21, 50 32, 50 32 Z" fill="#ffffff" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SCREEN 3: THE LOVE BOOK SLIDESHOW ================= -->
+        <section id="book-screen" class="screen">
+            <div class="book-container glassmorphism">
+                
+                <!-- Progress Indicator -->
+                <div class="book-progress">
+                    <span class="progress-dot active" data-index="0"></span>
+                    <span class="progress-dot" data-index="1"></span>
+                    <span class="progress-dot" data-index="2"></span>
+                    <span class="progress-dot" data-index="3"></span>
+                </div>
+
+                <!-- Slide Container -->
+                <div class="slides-wrapper">
+                    
+                    <!-- SLIDE 1: VIRTUAL HUG -->
+                    <div class="slide active" id="slide-hug">
+                        <h2 class="slide-title">A BIG Virtual Hug! 🐻💕</h2>
+                        <div class="animation-container">
+                            <svg class="hug-bear-svg" viewBox="0 0 200 220" width="220" height="240">
+                                <!-- Ears -->
+                                <circle cx="55" cy="55" r="18" fill="url(#bearGrad)" />
+                                <circle cx="55" cy="55" r="10" fill="url(#innerEarGrad)" />
+                                <circle cx="145" cy="55" r="18" fill="url(#bearGrad)" />
+                                <circle cx="145" cy="55" r="10" fill="url(#innerEarGrad)" />
+                                
+                                <!-- Feet / Legs -->
+                                <ellipse cx="65" cy="200" rx="16" ry="12" fill="url(#bearGrad)" />
+                                <ellipse cx="135" cy="200" rx="16" ry="12" fill="url(#bearGrad)" />
+                                
+                                <!-- Body -->
+                                <path d="M 60 130 C 40 160, 45 195, 65 200 C 90 205, 110 205, 135 200 C 155 195, 160 160, 140 130 Z" fill="url(#bearGrad)" />
+                                
+                                <!-- Head -->
+                                <circle cx="100" cy="100" r="45" fill="url(#bearGrad)" />
+                                
+                                <!-- Eyes (Animated) -->
+                                <circle class="hug-bear-eye left" cx="83" cy="95" r="5" fill="#3a251b" />
+                                <circle class="hug-bear-eye right" cx="117" cy="95" r="5" fill="#3a251b" />
+                                
+                                <!-- Cheeks (Blush) -->
+                                <ellipse cx="73" cy="106" rx="9" ry="6" fill="#fca4b7" opacity="0.8" />
+                                <ellipse cx="127" cy="106" rx="9" ry="6" fill="#fca4b7" opacity="0.8" />
+                                
+                                <!-- Snout -->
+                                <ellipse cx="100" cy="108" rx="13" ry="9" fill="#ffffff" />
+                                <path d="M 96 106 Q 100 109 104 106 Q 100 104 96 106" fill="#3a251b" />
+                                <path d="M 100 107 L 100 112 Q 97 114 95 113 M 100 112 Q 103 114 105 113" stroke="#3a251b" stroke-width="1.5" fill="none" stroke-linecap="round" />
+                                
+                                <!-- Left Arm (Open to hug) -->
+                                <path id="hug-left-arm" d="M 65 140 C 25 135, 10 165, 30 185 C 45 200, 65 180, 65 160" fill="url(#bearGrad)" />
+                                <!-- Right Arm (Open to hug) -->
+                                <path id="hug-right-arm" d="M 135 140 C 175 135, 190 165, 170 185 C 155 200, 135 180, 135 160" fill="url(#bearGrad)" />
+                            </svg>
+                            <!-- Screen Ripple Effect Trigger -->
+                            <div class="ripple-overlay" id="hug-ripple-overlay"></div>
+                        </div>
+                        <p class="slide-subtitle">Click the bear for a warm squeeze! 🥰</p>
+                    </div>
+
+                    <!-- SLIDE 2: HEART SYMPHONY -->
+                    <div class="slide" id="slide-heart">
+                        <h2 class="slide-title">My Heart Beats For You</h2>
+                        <div class="animation-container">
+                            <div class="beating-heart-wrapper">
+                                <svg class="symphony-heart" id="symphony-heart-svg" viewBox="0 0 100 100" width="130" height="130">
+                                    <path d="M 50 35 C 50 35, 42 20, 28 30 C 14 40, 50 75, 50 75 C 50 75, 86 40, 72 30 C 58 20, 50 35, 50 35 Z" fill="#ff4b72" filter="drop-shadow(0 0 15px rgba(255, 75, 114, 0.6))" />
+                                </svg>
+                            </div>
+                            <canvas id="heart-symphony-canvas" width="300" height="180"></canvas>
+                        </div>
+                        <p class="slide-subtitle">Tap the heart to play our song ❤️</p>
+                    </div>
+
+                    <!-- SLIDE 3: KISS BLASTER -->
+                    <div class="slide" id="slide-kisses">
+                        <h2 class="slide-title">Sending Many Kisses! 💋</h2>
+                        <div class="animation-container interactive-canvas-container">
+                            <canvas id="kiss-blaster-canvas" width="320" height="240"></canvas>
+                            <div class="click-prompt">Tap inside the screen! ✨</div>
+                        </div>
+                        <p class="slide-subtitle">Shower your screen with virtual love! 😘</p>
+                    </div>
+
+                    <!-- SLIDE 4: THE FINAL NOTE -->
+                    <div class="slide" id="slide-note">
+                        <div class="polaroid-card">
+                            <div class="polaroid-pin">📌</div>
+                            <div class="polaroid-photo">
+                                <div class="floating-illustration">
+                                    <!-- A heart envelope floating on clouds -->
+                                    <svg viewBox="0 0 100 100" width="100" height="100">
+                                        <path d="M 20 20 L 80 20 L 80 80 L 20 80 Z" fill="#fff" stroke="#ffccd5" stroke-width="2" />
+                                        <path d="M 20 20 L 50 50 L 80 20" fill="none" stroke="#ff8da1" stroke-width="2" />
+                                        <path d="M 50 40 C 50 40, 47 34, 42 38 C 37 42, 50 52, 50 52 C 50 52, 63 42, 58 38 C 53 34, 50 40, 50 40 Z" fill="#ff4b72" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="polaroid-text-area">
+                                <p class="sweet-note-message">I love you, Sandeera!</p>
+                                <p class="sweet-note-signature">— From Daniru 💖</p>
+                            </div>
+                        </div>
+                        <button id="replay-btn" class="btn secondary-btn">Replay Magic 🪄</button>
+                    </div>
+
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="book-nav">
+                    <button id="prev-btn" class="nav-arrow" disabled aria-label="Previous Slide">
+                        <svg viewBox="0 0 24 24" width="24" height="24">
+                            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                    <button id="next-btn" class="nav-arrow" aria-label="Next Slide">
+                        <svg viewBox="0 0 24 24" width="24" height="24">
+                            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
